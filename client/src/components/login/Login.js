@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { userLogin } from '../../store/userAuth/actions';
+import { userLoginValidate } from '../../store/userAuth/actions';
 import TextField from '@material-ui/core/TextField';
 
 import {testServer} from '../../services/test.service';
+import { loginDb } from '../../services/auth.service';
 
 class Login extends React.Component {
     constructor(props) {
@@ -17,16 +18,7 @@ class Login extends React.Component {
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    componentDidMount() {             
-    }
-
-    serverTest() {
-        const serverMsg = testServer();
-        if(serverMsg)
-            console.log('login msg:' + serverMsg);   
-    }
+    }    
     
     handleChange = name => event => {
         this.setState({
@@ -41,7 +33,9 @@ class Login extends React.Component {
         const { username, password } = this.state;
         const { dispatch } = this.props;
         if (username && password) {
-            userLogin(username, password);
+            // userLogin(username, password);
+            const userLogin = { username: username, password: password };
+            dispatch(userLoginValidate(userLogin));
         }
     }
 
@@ -51,6 +45,7 @@ class Login extends React.Component {
             <div>
                 <h2>Login Page</h2>
                 <form className="flexcontainer" onSubmit={this.handleSubmit}>
+                    <label>{this.props.errorMsg}</label>
                     <TextField style={{ padding: 24 }}
                     required
                     id="outlined-name"
@@ -70,10 +65,7 @@ class Login extends React.Component {
                     />                    
                     <div>
                         <button>Login</button>                                                
-                    </div>
-                    <div>
-                        <button onClick={this.serverTest}>Test</button>                                                
-                    </div>
+                    </div>                    
                     <div><Link to="/register">Register</Link>
                         </div>                    
 
@@ -85,10 +77,12 @@ class Login extends React.Component {
 
 function mapStateToProps(state) {
     const loginUser = state.userAuth;
+    let user;
+    let errorMsg = '';
     (loginUser.user) ?
-    console.log('mstp user:' + loginUser.user.nick) : console.log('no authentication');    
+        (user = loginUser.user) : (errorMsg = loginUser.loginResult);    
 
-    return { loginUser };  
+    return { user, errorMsg };  
 }
 
 export default connect(mapStateToProps)(Login);

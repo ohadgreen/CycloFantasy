@@ -1,7 +1,32 @@
 import _ from 'lodash';
+import axios from 'axios';
 import userSample from './user.sample';
 
-export function login(username, password) {
+const baseUrl = '/api/auth/';
+
+class AuthService {
+    async loginDb(userLogin) {        
+        const getUserUrl = `${baseUrl}/user`;
+        const response = await axios({
+            url: getUserUrl,
+            params: userLogin,
+            method: 'GET',
+            headers: {
+                Accept: 'application/json'
+            }
+        });
+
+        if (!response.status === 200) {
+            console.log('response:' + response);    
+            return { error: response.statusText }    
+        }
+        else{
+            console.log('service user: ', response.data);            
+            return { data: response.data };
+        }        
+}
+
+ login(username, password) {
     let loginResult = {
         user: undefined,
         result: '',
@@ -30,3 +55,6 @@ export function login(username, password) {
     }
     return loginResult;
 }
+}
+
+export default new AuthService();

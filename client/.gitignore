@@ -2,9 +2,14 @@
 
 # dependencies
 /node_modules
+/server/node_modules
+/client/node_modules
 
 # testing
 /coverage
+
+# properties
+/server/config/keys.js
 
 # production
 /build

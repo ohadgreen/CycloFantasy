@@ -1,14 +1,26 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var router = express.Router();
-var app = express();
-app.use('/', router);
+const express = require('express');
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const router = express.Router();
+require('./model/User');
+const keys = require('./config/keys');
+
+mongoose.connect(keys.mongoURI);
 
 const app = express();
+app.use('/', router);
+
+app.use(bodyParser.urlencoded({
+    extended: false,
+}));
+app.use(bodyParser.json());
+app.use(express.static(__dirname + '/public'));
+
+require('./routes/auth')(app);
+
 const port = process.env.PORT || 5000;
-
-app.get('/api/hello', (req, res) => {
-    res.send({ msg: 'Hello From Express' });
-});
-
 app.listen(port, () => console.log(`Listening on port ${port}`));
+
+router.get('/api/hello', (req, res) => {
+    res.send({ msg: 'Hello From Express' });
+})

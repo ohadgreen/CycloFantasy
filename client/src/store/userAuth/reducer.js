@@ -1,25 +1,26 @@
-import _ from 'lodash';
+// import _ from 'lodash';
 
+let user = JSON.parse(localStorage.getItem('user'));
 const initialState = {
     loggedIn: false,
     user: undefined,
     loginResult: '',
-    userList: []
 }
 
 export default function reduce(state = initialState, action) {     
-    switch (action.type) {
-        
+    console.log('reducer action.type ', action.type);
+    switch (action.type) {        
         case 'LOGIN_SUCCESS': {
-            console.log(...action.payload);
+            console.log(action.payload);
             return {loggedIn: true,
-                    user: action.payload.user,
-                    loginResult: action.payload.result,
+                    user: action.payload,
+                    loginResult: 'success',
             }
         }
         case 'LOGIN_FAILURE':
+            console.log(action.payload);
             return {                
-                loginResult: action.payload.result,
+                loginResult: action.payload,
             }
         default:
             return state;
