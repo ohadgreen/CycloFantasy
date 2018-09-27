@@ -2,10 +2,10 @@ import _ from 'lodash';
 import axios from 'axios';
 import userSample from './user.sample';
 
-const baseUrl = '/api/auth/';
+const baseUrl = '/api/auth/'; 
 
 class AuthService {
-    async loginDb(userLogin) {        
+    async loginDb(userLogin) {
         const getUserUrl = `${baseUrl}/user`;
         const response = await axios({
             url: getUserUrl,
@@ -17,44 +17,64 @@ class AuthService {
         });
 
         if (!response.status === 200) {
-            console.log('response:' + response);    
-            return { error: response.statusText }    
-        }
-        else{
-            console.log('service user: ', response.data);            
-            return { data: response.data };
-        }        
-}
-
- login(username, password) {
-    let loginResult = {
-        user: undefined,
-        result: '',
-    }
-    const user = _.filter(userSample, function (user) {
-        return user.userName === username;
-    })[0];
-
-    if (!user) {
-        const resNotExists = 'nouser'
-        console.log(resNotExists);
-        loginResult.result = resNotExists;
-    }
-    else {
-        if (user.password === password) {
-            const resLoginSuccess = 'success'
-            console.log(resLoginSuccess);
-            loginResult.user = user;
-            loginResult.result = resLoginSuccess;
+            console.log('response:' + response);
+            return { error: response.statusText }
         }
         else {
-            const resPwMismatch = 'pwMismatch'
-            console.log(resPwMismatch);
-            loginResult.result = resPwMismatch;
+            console.log('service user: ', response.data);
+            return { data: response.data };
         }
     }
-    return loginResult;
-}
+
+    async registerDb(user) {
+        const postRegisterUrl = `${baseUrl}/user`;
+        const response = await axios({
+            url: postRegisterUrl,
+            params: user,
+            method: 'POST',
+            headers: {
+                Accept: 'application/json'
+            }
+        });
+        if (!response.status === 200) {
+            console.log('response:' + response);
+            return { error: response.text }
+        }
+        else {
+            console.log('service user: ', response.data);
+            return { data: response.data };
+        }
+    }
+
+    login(username, password) {
+        let loginResult = {
+            user: undefined,
+            result: '',
+        }
+        const user = _.filter(userSample, function (user) {
+            return user.userName === username;
+        })[0];
+
+        if (!user) {
+            const resNotExists = 'nouser'
+            console.log(resNotExists);
+            loginResult.result = resNotExists;
+        }
+        else {
+            if (user.password === password) {
+                const resLoginSuccess = 'success'
+                console.log(resLoginSuccess);
+                loginResult.user = user;
+                loginResult.result = resLoginSuccess;
+            }
+            else {
+                const resPwMismatch = 'pwMismatch'
+                console.log(resPwMismatch);
+                loginResult.result = resPwMismatch;
+            }
+        }
+        return loginResult;
+    }
 }
 
 export default new AuthService();

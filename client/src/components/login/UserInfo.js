@@ -1,11 +1,28 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import RaceInfo from '../raceInfo/GeneralInfo';
 
 class UserInfo extends React.Component {
+
     render() {
         return (
-            <div>UserInfo Page</div>
+            <div>
+                <div>Welcome {this.props.user.nickname}</div>
+                <div>
+                    <RaceInfo />
+                </div>
+            </div>
         )
     }
 }
 
-export default UserInfo;
+function mapStateToProps(state) {
+    const user = state.userAuth.user;
+    console.log('user info: ', user);
+
+    return {
+        user
+    };
+}
+
+export default connect(mapStateToProps)(UserInfo);

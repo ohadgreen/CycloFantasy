@@ -8,12 +8,12 @@ const User = mongoose.model("users");
 module.exports = app => {    
     app.get('/api/auth/test', function (req, res) { res.send({ msg: 'User auth test!!!' })});
 
-    app.post('/api/user', function (req, res) {
-        const { username, password, nick, email } = req.body;
+    app.post('/api/auth/user', function (req, res) {
+        const { username, password, nickname, email } = req.query;
         user = new User({
             username: username,
             password: password,
-            nickname: nick,
+            nickname: nickname,
             email: email,
         });
 
@@ -21,7 +21,7 @@ module.exports = app => {
         // res.send({user: user});
         user.save(function (err) {
             if (err)
-                res.send(err);
+                res.send({ text: err });
             else {
                 return res.json({ data: user });
             }
@@ -30,7 +30,7 @@ module.exports = app => {
 
     app.get("/api/auth/user", async (req, res) => {
         const { username, password } = req.query;
-        console.log('username: ', username);        
+        // console.log('username: ', username);        
         let errorMsg;
         const user = await User.findOne({ 'username': username });
         if(!user){

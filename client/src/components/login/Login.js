@@ -4,9 +4,6 @@ import { connect } from 'react-redux';
 import { userLoginValidate } from '../../store/userAuth/actions';
 import TextField from '@material-ui/core/TextField';
 
-import {testServer} from '../../services/test.service';
-import { loginDb } from '../../services/auth.service';
-
 class Login extends React.Component {
     constructor(props) {
         super(props);
