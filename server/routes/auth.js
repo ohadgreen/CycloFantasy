@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
-const express = require('express');
-const router = express.Router();
-// const User = require('../model/User');
+const jwt = require('jsonwebtoken');
 
 const User = mongoose.model("users");
 
@@ -45,7 +43,16 @@ module.exports = app => {
                 res.send({ error: errorMsg });
             }
             else{
-                res.send({ user: user }); 
+                user["token"] = "jwt-token";
+                let authUser = {
+                    username: user.username,
+                    password: user.password,
+                    nickname: user.nickname,
+                    email: user.email,
+                    token: "jwt-token"
+                }
+                // console.log('user: ', authUser);                          
+                res.send({ data: authUser }); 
             }            
         }        
     })
