@@ -1,16 +1,16 @@
 
-let user = JSON.parse(localStorage.getItem('user'));
+let storedUser = JSON.parse(localStorage.getItem('user'));
+
 const initialState = {
     loggedIn: false,
-    user: undefined,
+    user: (storedUser) ? storedUser : undefined,
     loginResult: '',
 }
 
 export default function reduce(state = initialState, action) {     
-    // console.log('reducer action.type ', action.type);
+    // console.log('storedUser ', storedUser);
     switch (action.type) {        
         case 'LOGIN_SUCCESS': {
-            // console.log(action.payload);
             return {loggedIn: true,
                     user: action.payload,
                     loginResult: 'success',

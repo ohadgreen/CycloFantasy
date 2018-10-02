@@ -37,7 +37,7 @@ class Login extends React.Component {
     }
 
     render() {
-        const { username, password, submitted } = this.state;
+        const { username, password } = this.state;
         return (
             <div>
                 <h2>Login Page</h2>

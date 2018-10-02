@@ -12,7 +12,7 @@ export default function reduce(state = initialState, action) {
             // console.log(action.payload);
             return {
                 fetched: true,
-                raceInfo: action.payload,
+                raceInfo: action.payload.raceInfo,
                 competitors: [],
             }
         }      

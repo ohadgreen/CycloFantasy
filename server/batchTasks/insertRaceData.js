@@ -8,7 +8,7 @@ const proxyurl = "https://cors-anywhere.herokuapp.com/";
 
 module.exports = app => {
     app.get("/api/race/getrace", async (req, res) => {
-        const {raceId} = req.query;
+        const { raceId } = req.query;
         const raceInfoApiUrl = BASE_URL.replace('@@@', raceId) + '?api_key=' + API_KEY;
         console.log('raceUrl: ' + raceInfoApiUrl);
 
@@ -25,13 +25,16 @@ module.exports = app => {
             const raceInfo = response.data;
             console.log('race name: ', raceInfo.stage.race.name);
             const race = new Race({
-                raceName: raceInfo.stage.race.name,
-                stage: raceInfo.stage.name,
-                date: raceInfo.stage.scheduled,
-                distance: raceInfo.stage.course.distance,
-                departureCity: raceInfo.stage.course.departure_city,
-                arrivalCity: raceInfo.stage.course.arrival_city,
-                classification: raceInfo.stage.course.classification,
+                raceInfo: {
+                    apiRaceId: raceId,
+                    raceName: raceInfo.stage.race.name,
+                    stage: raceInfo.stage.name,
+                    date: raceInfo.stage.scheduled,
+                    distance: raceInfo.stage.course.distance,
+                    departureCity: raceInfo.stage.course.departure_city,
+                    arrivalCity: raceInfo.stage.course.arrival_city,
+                    classification: raceInfo.stage.course.classification,
+                },
                 competitors: raceInfo.competitors.map(comp => {
                     return {
                         name: comp.name,

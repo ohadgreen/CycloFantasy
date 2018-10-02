@@ -6,9 +6,9 @@ import authService from '../../services/auth.service';
         const loginResult = await authService.loginDb(userLogin);
         console.log('loginResult: ', loginResult);
         
-        let user;
-        if(!loginResult.data.error){
-            user = loginResult.data.user;
+        let user;        
+        if(!loginResult.error){
+            user = loginResult.user.data;
             dispatch({ type: 'LOGIN_SUCCESS', payload: user });
             appRoute("/userinfo");           
         }

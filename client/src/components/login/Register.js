@@ -43,7 +43,7 @@ class Register extends React.Component {
         }
     }
     render() {
-        const { user, submitted } = this.state;
+        const { user } = this.state;
         return (
             <div><h2>Registration</h2>
                 <form className="flexcontainer" onSubmit={this.handleSubmit}>

@@ -21,8 +21,11 @@ class AuthService {
             return { error: response.statusText }
         }
         else {
-            console.log('service user: ', response.data);
-            return { data: response.data };
+            const user = response.data;            
+            if (user.data.token){
+                localStorage.setItem('user', JSON.stringify(response.data));
+                return { user: response.data };
+            }
         }
     }
 
