@@ -2,18 +2,18 @@
 const initialState = {
     fetched: false,
     raceInfo: undefined,
-    competitors: [],
+    teams: new Map(),
 }
 
 export default function reduce(state = initialState, action) {
     console.log('reducer action.type ', action.type);
     switch (action.type) {
         case 'RACE_INFO_SUCCESS': {
-            // console.log(action.payload);
+            console.log(action.payload.teams);
             return {
                 fetched: true,
                 raceInfo: action.payload.raceInfo,
-                competitors: [],
+                teams: action.payload.teams,
             }
         }      
 
