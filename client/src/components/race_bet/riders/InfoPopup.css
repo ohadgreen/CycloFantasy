@@ -1,0 +1,40 @@
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: 'rgba(0,0,0,0.3)';
+  padding: 50
+}
+
+.modal-style {
+  background-color: '#fff';
+  border-radius: 5;
+  max-width: 300;
+  min-height: 90;
+  margin: '0 auto';
+  padding: 20;
+}
+
+.card-container {
+  display: flex;
+  flex-direction: row;
+  padding: 15px;
+}
+
+.rider-image {
+  margin: 5px;
+}
+
+.rider-details {
+  text-align: left;
+  font-size: 14px;
+  margin: 5px;
+}
+
+.close-info {
+  position: absolute;
+  top: 0%;
+  right: 0%
+}

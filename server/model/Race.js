@@ -17,6 +17,13 @@ const raceSchema = new Schema({
     results: [{
         competitor: competitorSchema,
         rank: Number
+    }],
+    bets: [{
+        user: String,
+        ridersChoice: [{
+            rank: Number,
+            riderId: String,
+        }]
     }]
 });
 mongoose.model('races', raceSchema);

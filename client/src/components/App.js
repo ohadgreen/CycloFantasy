@@ -5,6 +5,7 @@ import AuthMain from './login/AuthMain';
 import Login from './login/Login';
 import Register from './login/Register';
 import UserInfo from './login/UserInfo';
+import RaceBet from './race_bet/RaceBet';
 
 class App extends Component {
   render() {
@@ -15,6 +16,7 @@ class App extends Component {
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
             <Route path="/userinfo" component={UserInfo} />
+            <Route path="/racebet" component={RaceBet} />
             <Route path="/" component={AuthMain} />
           </Switch>
         </Router>

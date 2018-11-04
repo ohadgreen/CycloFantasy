@@ -18,6 +18,10 @@ module.exports = app => {
         else {
             res.send(stage);
         }
+    });
+
+    app.post("/api/race/placebet", async (req, res) => {
+        
     })
 
 }

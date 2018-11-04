@@ -10,10 +10,10 @@ import authService from '../../services/auth.service';
         if(!loginResult.error){
             user = loginResult.user.data;
             dispatch({ type: 'LOGIN_SUCCESS', payload: user });
-            appRoute("/userinfo");           
+            appRoute("/racebet");           
         }
         else{
-            dispatch({ type: 'LOGIN_FAILURE', payload: loginResult.data.error })
+            dispatch({ type: 'LOGIN_FAILURE', payload: loginResult.error })
         }                 
 }
     export const userRegister = (user) => async dispatch => {
@@ -21,6 +21,7 @@ import authService from '../../services/auth.service';
         console.log('register result: ', registerResult);
         if(!registerResult.data.error){
             dispatch({ type: 'REGISTER_SUCCESS', payload: registerResult.data.user });
+            appRoute("/login");
         }
         else{
             dispatch({ type: 'REGISTER_FAILURE', payload: registerResult.data.error });

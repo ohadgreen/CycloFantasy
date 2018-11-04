@@ -16,16 +16,26 @@ class AuthService {
             }
         });
 
+        // console.log('auth.service res: ' + JSON.stringify(response));
         if (!response.status === 200) {
             console.log('response:' + response);
             return { error: response.statusText }
         }
         else {
+            if(response.data.error){
+                console.log('login error: ' + response.data.error);
+                return{ error: response.data.error };
+                
+            }
+            else {
             const user = response.data;            
             if (user.data.token){
-                localStorage.setItem('user', JSON.stringify(response.data));
+                const verifiedUser = JSON.stringify(response.data);
+                console.log('verifideUser: ', verifiedUser);
+                // localStorage.setItem('user', verifiedUser);
                 return { user: response.data };
             }
+        }
         }
     }
 
@@ -44,39 +54,11 @@ class AuthService {
             return { error: response.text }
         }
         else {
-            console.log('service user: ', response.data);
+            const registeredUser = JSON.stringify(response.data);
+            console.log('registeredUser: ', registeredUser);
+            localStorage.setItem('user', registeredUser);
             return { data: response.data };
         }
-    }
-
-    login(username, password) {
-        let loginResult = {
-            user: undefined,
-            result: '',
-        }
-        const user = _.filter(userSample, function (user) {
-            return user.userName === username;
-        })[0];
-
-        if (!user) {
-            const resNotExists = 'nouser'
-            console.log(resNotExists);
-            loginResult.result = resNotExists;
-        }
-        else {
-            if (user.password === password) {
-                const resLoginSuccess = 'success'
-                console.log(resLoginSuccess);
-                loginResult.user = user;
-                loginResult.result = resLoginSuccess;
-            }
-            else {
-                const resPwMismatch = 'pwMismatch'
-                console.log(resPwMismatch);
-                loginResult.result = resPwMismatch;
-            }
-        }
-        return loginResult;
     }
 }
 

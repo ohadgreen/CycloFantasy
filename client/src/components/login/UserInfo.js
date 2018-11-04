@@ -9,7 +9,7 @@ class UserInfo extends React.Component {
             <div>
                 <div>Welcome {this.props.user.nickname}</div>
                 <div>
-                    <RaceInfo />
+                    {/* <RaceInfo /> */}
                 </div>
             </div>
         )

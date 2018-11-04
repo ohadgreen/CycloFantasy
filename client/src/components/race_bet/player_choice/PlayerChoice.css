@@ -1,0 +1,35 @@
+
+.race-bet {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid #999;
+  border-radius: 4px;
+  padding: 15px;
+  align-content: left;
+  margin-top: 5px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 12px;
+}
+
+.choice-title {
+  width: 80px;
+  word-wrap: normal;
+  font-weight: 500;
+  align-content: right;
+}
+
+.choice {
+  width: 120px;
+  height: 55px;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #999;
+  border-radius: 4px;
+}
+
+.choice-details {
+    width: 80px;
+    padding: 20px;
+}
