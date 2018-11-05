@@ -6,24 +6,23 @@ const path = require('path');
 module.exports = app => {
     app.post("/api/team/insert", async (req, res) => {
         const name = req.body.name;
-        const imagePathTest = 'C:/js/react/cyclofantasy/server/resource/images/bora.jpg';
+        const imagePath = path.resolve(__dirname, `../resource/images/${name}.jpg`);
         console.log('team name: ', name);
         
-        // const imagePath = require(`../resource/images/${name}.jpg`);
-        const imageFile = fs.readFileSync(imagePathTest, (err, info) => {console.log('image file read') });
+        const imageFile = fs.readFileSync(imagePath, (err, info) => {console.log('image file read') });
 
         const team = new Team({
-            sportRadarId: '1234',
+            sportRadarId: '4567',
             displayName: name,
             normName: name.toLowerCase(),
             group: 'first',
             image: {
-                type: 'image/jpg',
+                name: `'${name}.jpg'`,
+                contentType: 'image/jpg',
                 data: imageFile,
             }
         });
-
-        console.log(JSON.stringify(team));
+        // console.log(JSON.stringify(team));
         
         try {
             await team.save();
@@ -31,8 +30,7 @@ module.exports = app => {
         }
         catch (error) {
             console.log('error ' + error.message);
-            
             res.status(420).send(error);
         }        
-    })
+    });
 }
