@@ -19,9 +19,4 @@ module.exports = app => {
             res.send(stage);
         }
     });
-
-    app.post("/api/race/placebet", async (req, res) => {
-        
-    })
-
 }

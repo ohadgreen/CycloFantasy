@@ -5,6 +5,7 @@ const router = express.Router();
 require('./model/User');
 require('./model/Race');
 require('./model/Team');
+require('./model/Rider');
 const keys = require('./config/keys');
 
 mongoose.connect(keys.mongoURI);
@@ -22,6 +23,7 @@ require('./routes/auth')(app);
 require('./routes/race')(app);
 require('./batchTasks/insertRaceData')(app);
 require('./batchTasks/insertTeamData')(app);
+require('./batchTasks/insertRaceData2')(app);
 require('./routes/imagesHandle')(app);
 
 const port = process.env.PORT || 5000;

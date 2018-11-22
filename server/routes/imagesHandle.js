@@ -26,7 +26,9 @@ module.exports = app => {
         });
 
         try {
-            await image.save();
+            const imgDb = await image.save();
+            console.log('imgDb: ' + JSON.stringify(imgDb._id));
+            
             res.send({ message: "new image saved" });
         }
         catch (error) {
@@ -48,8 +50,11 @@ module.exports = app => {
                 res.contentType('image/jpg');
                 res.send(image.data);
             }
-
         });
+    });
+
+    app.get('/api/team-image/:name', function (req, res, next) {
+
     });
 
     app.get("/api/image/test", function (req, res, next) {
