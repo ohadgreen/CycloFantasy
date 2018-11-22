@@ -5,6 +5,9 @@
 # testing
 /coverage
 
+# resources
+/server/resources
+
 # production
 /build
 
