@@ -12,9 +12,9 @@ module.exports = app => {
     app.post("/api/race/updatesrid", async (req, res) => {
         req.setTimeout(5000000);
         const { raceId } = req.query;
-        // const raceData = await fetchRaceData(raceId);
-        const raceDataRaw = apiRaceSample;
-        const raceData = apiDataParser(raceDataRaw, raceId);
+        // const raceDataRaw = apiRaceSample;
+        const srRaceData = await fetchRaceData(raceId);
+        const raceData = apiDataParser(srRaceData, raceId);
 
         const { teamRidersMap, teamsArray } = teamRidersToMap(raceData.competitors);
 
@@ -35,18 +35,71 @@ module.exports = app => {
         res.send({ teamsNotFound: teamsNotFound, ridersNotFoundAll: ridersNotFoundAll });
     });
 
-    async function updateSingleTeamSrId(team) {
-        let teamNotFound;
-        const teamNormName = normalizeName(team.name);
-        const updateTeam = await Team.updateOne(
-            { normName: { $regex: `.*${teamNormName}.*` } },
-            { $set: { 'sportRadarId': team.id } },
-        );
-        // console.log(JSON.stringify(updateTeam));
-        if (updateTeam.n !== 1) {
-            teamNotFound = { displayName: team.name, normName: teamNormName, id: team.id }
+    app.post("/api/race/preraceinsert", async (req, res) => {
+        const { raceId } = req.query;
+        const apiRaceData = await fetchRaceData(raceId);
+        // const raceDataRaw = apiRaceSample;
+        const raceData = apiDataParser(apiRaceData, raceId);
+
+        const { teamRidersMap, teamsArray } = teamRidersToMap(raceData.competitors);
+
+        let teamRidersForRaceSchema = [];
+
+        for (team of teamsArray) {
+            // const team = { id: 'sr:team:62896', name: 'Trek - Segafredo'}
+            let teamOnRace;
+            console.log('updating team: ' + team.name);
+            const teamDbData = await Team.findOne({ sportRadarId: team.id });
+            if (!teamDbData) {
+                console.log(`${team.id} ${team.name} not found in db`);
+                teamOnRace = { displayName: team.name };
+            }
+            else {
+                teamOnRace = teamDbData;
+            }
+
+            let teamOnRaceRiders = teamRidersMap.get(team.id);
+            let teamRiderIds = [];
+            teamOnRaceRiders.map(r => teamRiderIds.push(r.id));
+            let teamRidersFromDb = await Rider.find({ sportRadarId: { $in: teamRiderIds } });
+
+            const aTeam = { team: teamOnRace, riders: teamRidersFromDb };
+            teamRidersForRaceSchema.push(aTeam);
+        } // teams loop
+
+        const race = new Race({
+            isActive: true,
+            hasResults: false,
+            raceInfo: raceData.raceInfo,
+            competitors: [],
+            teamsRiders: teamRidersForRaceSchema,
+            results: []
+        });
+        // console.log('race: ' + JSON.stringify(race));
+        try {
+            await race.save();
+            res.send({ message: "new race saved" });
         }
-        return teamNotFound;
+        catch (error) {
+            res.status(420).send(error);
+        }
+    });
+
+    async function updateSingleTeamSrId(team) {
+        const teamOnDb = await Team.findOne({ sportRadarId: team.id });
+        if (!teamOnDb) {
+            let teamNotFound;
+            const teamNormName = normalizeName(team.name);
+            const updateTeam = await Team.updateOne(
+                { normName: { $regex: `.*${teamNormName}.*` } },
+                { $set: { 'sportRadarId': team.id } },
+            );
+            // console.log(JSON.stringify(updateTeam));
+            if (updateTeam.n !== 1) {
+                teamNotFound = { displayName: team.name, normName: teamNormName, id: team.id }
+            }
+            return teamNotFound;
+        }
     }
 
     function delay() {
@@ -82,36 +135,27 @@ module.exports = app => {
         let updateSuccess = 0;
         let ridersNotFound = [];
         for (rider of riders) {
-            totalToUpdate++;
-            const riderNormName = normalizeName(reverseName(rider.name));
-            const updateRider = await Rider.updateOne(
-                { normName: { $regex: `.*${riderNormName}.*` } },
-                { $set: { 'sportRadarId': rider.id } },
-            );
-            if (updateRider.n === 0) {
-                rider.normName = riderNormName;
-                ridersNotFound.push(rider);
-            }
-            else {
-                updateSuccess++;
+            const riderOnDb = await Rider.findOne({ sportRadarId: rider.id });
+            if (!riderOnDb) {
+                totalToUpdate++;
+                const riderNormName = normalizeName(reverseName(rider.name));
+                const updateRider = await Rider.updateOne(
+                    { normName: { $regex: `.*${riderNormName}.*` } },
+                    { $set: { 'sportRadarId': rider.id } },
+                );
+                if (updateRider.n === 0) {
+                    rider.normName = riderNormName;
+                    ridersNotFound.push(rider);
+                }
+                else {
+                    updateSuccess++;
+                }
             }
             await delay();
         }
         console.log(`update complete, total: ${totalToUpdate} success: ${updateSuccess}`);
         return ridersNotFound;
     }
-
-    app.get("/api/race/getmultiteams", async (req, res) => {
-        let teams = ['astana-pro-team', 'bmc-racing-team', 'bahrain-merida', 'xyz'];
-
-        let dbTeams = [];
-        for (team of teams) {
-            const dbTeam = await Team.findOne({ normName: { $regex: `.*${team}.*` } }, { normName: 1, pageUrl: 1, _id: 0 });
-            dbTeams.push(dbTeam);
-        }
-        console.log('teamRes: ' + dbTeams);
-        res.send(dbTeams);
-    });
 }
 
 async function fetchRaceData(raceId) {
