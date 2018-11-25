@@ -9,6 +9,7 @@ const apiRaceSample = require('../sampleData/raceScheduleSample');
 const BASE_URL = 'http://api.sportradar.us/cycling-t1/en/stages/sr:stage:@@@/summary.json';
 
 module.exports = app => {
+    // should be ran once before grand tour or race once roster available
     app.post("/api/race/updatesrid", async (req, res) => {
         req.setTimeout(5000000);
         const { raceId } = req.query;
@@ -35,44 +36,24 @@ module.exports = app => {
         res.send({ teamsNotFound: teamsNotFound, ridersNotFoundAll: ridersNotFoundAll });
     });
 
-    app.post("/api/race/preraceinsert", async (req, res) => {
+    // assuming all riders and teams in race are available in reams and races tables
+    app.post("/api/race/insertriders", async (req, res) => {
         const { raceId } = req.query;
-        const apiRaceData = await fetchRaceData(raceId);
-        // const raceDataRaw = apiRaceSample;
-        const raceData = apiDataParser(apiRaceData, raceId);
+        // const apiRaceData = await fetchRaceData(raceId);
+        const raceDataRaw = apiRaceSample;
+        const raceData = apiDataParser(raceDataRaw, raceId);
+        const apiRaceRiders = raceData.competitors;
 
-        const { teamRidersMap, teamsArray } = teamRidersToMap(raceData.competitors);
-
-        let teamRidersForRaceSchema = [];
-
-        for (team of teamsArray) {
-            // const team = { id: 'sr:team:62896', name: 'Trek - Segafredo'}
-            let teamOnRace;
-            console.log('updating team: ' + team.name);
-            const teamDbData = await Team.findOne({ sportRadarId: team.id });
-            if (!teamDbData) {
-                console.log(`${team.id} ${team.name} not found in db`);
-                teamOnRace = { displayName: team.name };
-            }
-            else {
-                teamOnRace = teamDbData;
-            }
-
-            let teamOnRaceRiders = teamRidersMap.get(team.id);
-            let teamRiderIds = [];
-            teamOnRaceRiders.map(r => teamRiderIds.push(r.id));
-            let teamRidersFromDb = await Rider.find({ sportRadarId: { $in: teamRiderIds } });
-
-            const aTeam = { team: teamOnRace, riders: teamRidersFromDb };
-            teamRidersForRaceSchema.push(aTeam);
-        } // teams loop
+        let riderSrIdList = [];
+        apiRaceRiders.map(rider => { riderSrIdList.push(rider.id) })
+        let riderObjIdInDb = await Rider.find({ sportRadarId: {$in: riderSrIdList} });
+        console.log(`found riders in db: ${riderObjIdInDb.length} ex: ${riderObjIdInDb[0]}`);
 
         const race = new Race({
             isActive: true,
             hasResults: false,
             raceInfo: raceData.raceInfo,
-            competitors: [],
-            teamsRiders: teamRidersForRaceSchema,
+            riders: riderObjIdInDb,
             results: []
         });
         // console.log('race: ' + JSON.stringify(race));

@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const competitorSchema = require('./Competitor');
-const teamSchema = require('./Team');
 
 const raceSchema = new Schema({
     isActive: Boolean,
@@ -16,16 +14,9 @@ const raceSchema = new Schema({
         arrivalCity: String,
         classification: String,
     },
-    teamsRiders: [{
-        team: teamSchema,
-        riders: [{
-            normName: String,
-            displayName: String,
-        }]
-    }],
+    riders: [{ type: Schema.Types.ObjectId, ref: 'riders' }],
     riderResults: [{
-        dbid: String,
-        srid: String,
+        rider: { type: Schema.Types.ObjectId, ref: 'Rider' },
         rank: Number
     }],
     bets: [{
