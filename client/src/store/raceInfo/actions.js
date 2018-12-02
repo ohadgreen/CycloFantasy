@@ -1,15 +1,17 @@
+import _ from 'lodash';
 import raceInfoService from '../../services/raceinfo.service'
 
-export const getRaceInfo = () => async dispatch => {
-    const stageId = 'Stage 18';
-    const raceInfoResult = await raceInfoService.getRaceInfo(stageId);
+export const getActiveRace = () => async dispatch => {
+    const raceInfoResult = await raceInfoService.getRaceActive();
 
     if (!raceInfoResult.data.error) {
         dispatch({
             type: 'RACE_INFO_SUCCESS',
             payload: {
                 raceInfo: raceInfoResult.data.raceInfo,
-                teams: teamRiders(raceInfoResult.data.competitors)
+                riders: orderRiders(raceInfoResult.data.riders),
+                bets: raceInfoResult.data.bets,
+                currentUserBet: [] //TODO: filter user bet if exists
             }
         });
     }
@@ -18,35 +20,23 @@ export const getRaceInfo = () => async dispatch => {
     }
 }
 
-function teamRiders(competitors) {
-    let teamsMap = new Map();
-    competitors.map(c => {
-        const team = c.team;
-        const rider = {
-            name: reverseName(c.name),
-            nationality: c.nationality
-        };
-        if (!teamsMap.has(team)) {
-            const riders = [];
-            riders.push(rider);
-            teamsMap.set(team, riders);
+function orderRiders(ridersFromDb) {
+    let ridersOrderByWins = _.orderBy(ridersFromDb, 'proWins', 'desc');
+    let winsRank = 0;
+    _.forEach(ridersOrderByWins, (rider) => {
+        rider['winsRank'] = winsRank;
+        if (winsRank < 50) {
+            rider['top50'] = true;
         }
-        else {
-            let riders = teamsMap.get(team);
-            riders.push(rider);
-            teamsMap.set(team, riders);
-        }
+        winsRank++;
     });
 
-    return teamsMap;
-};
-
-function reverseName(apiName) {
-    try {
-        return apiName.split(',').reverse().join(' ');
-    }
-    catch (err) {
-        console.log(err.text);
-        return apiName;
-    }
-};
+    /* for (rider of ridersOrderByWins){
+        rider['winsRank'] = winsRank;
+        if(winsRank < 50) {
+            rider['top50'] = true;
+        }
+        winsRank ++;
+    } */
+    return ridersOrderByWins;
+}

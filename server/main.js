@@ -22,9 +22,8 @@ app.use(express.static(__dirname + '/public'));
 require('./routes/auth')(app);
 require('./routes/race')(app);
 require('./batchTasks/insertRaceData')(app);
-require('./batchTasks/insertTeamData')(app);
-require('./batchTasks/insertRaceData2')(app);
-require('./routes/imagesHandle')(app);
+require('./batchTasks/insertRaceData')(app);
+require('./routes/imagesGridFs/imagesHandle')(app);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Listening on port ${port}`));

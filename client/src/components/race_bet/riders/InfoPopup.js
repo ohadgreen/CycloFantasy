@@ -6,7 +6,7 @@ import './InfoPopup.css';
 
 class InfoPopup extends React.Component {
     render() {
-        const imgSrc = require(`../../resources/images/riderImage/${this.props.riderInfo.image}.jpg`);
+        // const imgSrc = require(`../../resources/images/riderImage/${this.props.riderInfo.image}.jpg`);
         // Render nothing if the "show" prop is false
         if (!this.props.show) {
             return null;
@@ -39,7 +39,7 @@ class InfoPopup extends React.Component {
                 <div className="modal" style={modalStyle}>
                     <div className="card-container">
                         <div className="rider-image">
-                            <img src={imgSrc} alt={this.props.riderInfo.name}></img>
+                            {/* <img src={imgSrc} alt={this.props.riderInfo.name}></img> */}
                         </div>
                         <div className="rider-details">
                             name: {this.props.riderInfo.name} <br />
@@ -62,10 +62,10 @@ class InfoPopup extends React.Component {
     }
 }
 
-ModalPopup.propTypes = {
+/* ModalPopup.propTypes = {
     onClose: PropTypes.func.isRequired,
     show: PropTypes.bool,
     children: PropTypes.node
-};
+}; */
 
 export default InfoPopup;

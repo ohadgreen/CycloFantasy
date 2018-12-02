@@ -5,31 +5,29 @@ const Race = mongoose.model("races");
 module.exports = app => {
     app.get("/api/race/active", async (req, res) => {
         let errorMsg;
-        const stage = await Race.findOne({ isActive: true, hasResults: false }).populate('riders');
-        if (!stage) {
+        const race = await Race.findOne({ isActive: true, hasResults: false }).populate('riders');
+        if (!race) {
             errorMsg = 'stage not found on db';
             console.log(errorMsg);
             res.send({ error: errorMsg });
         }
         else {
-            res.send(stage);
+            res.send(race);
         }
     });
 
-    app.get("/api/race/stage", async (req, res) => {
-        const { raceId } = req.query;
-        console.log('req.query', req.query);
-        
+    app.get("/api/race/bydate", async (req, res) => {
+        const { year, month, day } = req.query;
+        const dateConcat = `${year}-${month}-${day}T00:00:00.000Z`;
         let errorMsg;
-
-        const stage = await Race.findOne({ 'raceInfo.stage': raceId });
-        if (!stage) {
+        const race = await Race.findOne({ 'raceInfo.date': { '$gte': new Date(dateConcat) } }).populate('riders');
+        if (!race) {
             errorMsg = 'stage not found on db';
             console.log(errorMsg);
             res.send({ error: errorMsg });
         }
         else {
-            res.send(stage);
+            res.send(race);
         }
     });
 }

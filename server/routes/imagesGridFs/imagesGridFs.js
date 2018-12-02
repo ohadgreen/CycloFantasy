@@ -1,4 +1,4 @@
-const keys = require('../config/keys');
+const keys = require('../../config/keys');
 var mongoose = require('mongoose');
 // mongoose.connect(keys.mongoURI);
 var conn = mongoose.connection;

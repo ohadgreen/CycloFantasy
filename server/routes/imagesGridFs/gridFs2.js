@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var gridfs = require('gridfs-stream');
 var fs = require('fs');
 const path = require('path');
-const keys = require('../config/keys');
+const keys = require('../../config/keys');
 
 var app = express();
 /*

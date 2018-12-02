@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const gridfs = require('gridfs-stream');
-const keys = require('../config/keys');
+const keys = require('../../config/keys');
 mongoose.connect(keys.mongoURI);
 gridfs.mongo = mongoose.mongo;
 let gfs;

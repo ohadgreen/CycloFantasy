@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import RaceInfo from '../raceInfo/GeneralInfo';
 
 class UserInfo extends React.Component {
 
