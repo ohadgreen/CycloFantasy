@@ -1,6 +1,6 @@
 import React from 'react';
 import './Rider.css';
-import InfoPopup from './InfoPopup';
+// import InfoPopup from './InfoPopup';
 import { Eject, Info } from '@material-ui/icons'
 
 export const Rider = (props) => {

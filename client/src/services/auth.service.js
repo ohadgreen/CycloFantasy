@@ -1,11 +1,11 @@
-import _ from 'lodash';
+// import _ from 'lodash';
 import axios from 'axios';
-import userSample from './user.sample';
 
 const baseUrl = '/api/auth/'; 
 
 class AuthService {
     async loginDb(userLogin) {
+        console.log('login db');
         const getUserUrl = `${baseUrl}/user`;
         const response = await axios({
             url: getUserUrl,

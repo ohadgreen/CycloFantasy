@@ -6,8 +6,9 @@ import AuthMain from './login/AuthMain';
 import Login from './login/Login';
 import Register from './login/Register';
 import UserInfo from './login/UserInfo';
-import RaceBet from './race_bet/RaceBet';
+// import RaceBet from './race_bet/RaceBet';
 import RaceBetMain from './raceInfo/RaceBetMain';
+import RiderImage from './race_bet/riders/RiderImageTest';
 
 class App extends Component {
   render() {
@@ -19,7 +20,8 @@ class App extends Component {
             <Route path="/register" component={Register} />
             <Route path="/userinfo" component={UserInfo} />
             <Route path="/racebet" component={RaceBetMain} />
-            <Route path="/" component={AuthMain} />
+            <Route path="/riderimage" component={RiderImage} />
+            <Route path="/" component={RaceBetMain} />
           </Switch>
         </Router>
       </Container>

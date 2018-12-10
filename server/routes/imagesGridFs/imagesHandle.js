@@ -12,7 +12,7 @@ const Image = new Schema({
 const myImage = mongoose.model('images', Image);
 
 module.exports = app => {
-    app.post("/api/image", async (req, res) => {
+    app.post("/api/gfsimage", async (req, res) => {
         const name = req.body.name;
         const imagePath = path.resolve(__dirname, `../resource/images/${name}.jpg`);
         console.log('image name: ', name);
@@ -37,7 +37,7 @@ module.exports = app => {
         }
     });
 
-    app.get('/api/image/:name', function (req, res, next) {
+    app.get('/api/gfsimage/:name', function (req, res, next) {
         const imgDbName = req.params.name + ".jpg";
         console.log('req image name: ' + imgDbName);
         myImage.findOne({ "name": imgDbName }, function (err, image) {
@@ -57,7 +57,7 @@ module.exports = app => {
 
     });
 
-    app.get("/api/image/test", function (req, res, next) {
+    app.get("/api/gfsimage/test", function (req, res, next) {
         res.send({ message: 'test image api' });
 
     });

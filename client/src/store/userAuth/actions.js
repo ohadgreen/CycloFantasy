@@ -1,8 +1,8 @@
 import { history } from '../../services/history';
 import authService from '../../services/auth.service';
 
-//export async function userLoginValidate(userLogin, dispatch){
     export const userLoginValidate = (userLogin) => async dispatch => {
+        console.log('user login validate');
         const loginResult = await authService.loginDb(userLogin);
         console.log('loginResult: ', loginResult);
         

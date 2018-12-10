@@ -16,6 +16,7 @@ export const getActiveRace = () => async dispatch => {
         });
     }
     else {
+        console.log('data fetch failure ' + JSON.stringify(raceInfoResult));
         dispatch({ type: 'RACE_INFO_FAILURE', payload: raceInfoResult.data.error });
     }
 }

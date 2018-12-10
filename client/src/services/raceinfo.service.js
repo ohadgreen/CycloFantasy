@@ -1,16 +1,12 @@
 import axios from 'axios';
-// const BASE_URL = 'http://api.sportradar.us/cycling-t1/en/stages/sr:stage:@@@/summary.json'; 
-// const API_KEY = 'gddfnj6ve2g64u4hgfd99c5b';
+import { raceInfoSample } from '../resources/sampleData/raceInfo';
 // const proxyurl = "https://cors-anywhere.herokuapp.com/";
 const DB_FETCH_URL = "/api/race/";
 
 class RaceInfo {
     async getRaceActive() {
-        // const raceInfoApiUrl = BASE_URL.replace('@@@', raceId) + '?api_key=' + API_KEY;
-        const response = await axios({
-            // url: proxyurl + raceInfoApiUrl,
+        /* const response = await axios({
             url: `${DB_FETCH_URL}active`,
-            // params: raceDate,
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -24,9 +20,10 @@ class RaceInfo {
         }
         else {
             const raceInfo = response.data;
-            console.log('race name: ', raceInfo.raceName);
             return { data: raceInfo }
-        }
+        } */
+
+        return { data: raceInfoSample }
     }
 
     async getRaceByDate(year, month, day) {

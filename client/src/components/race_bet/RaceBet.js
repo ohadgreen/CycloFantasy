@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { teamRidersSample } from '../../resources/sampleData/teamRiders';
 import { raceInfoSample } from '../../resources/sampleData/raceInfo';
-import { RaceInfo } from '../raceInfo/RaceInfo';
+import { RaceInfoComponent } from '../raceInfo/RaceInfoComponent';
 import PlayerChoice from './player_choice/PlayerChoice';
 import TeamList from './teams/TeamList';
 
@@ -78,7 +78,7 @@ class RaceBet extends React.Component {
         return (
             <div>
                 <div>Hello {this.props.user.nickname}</div>
-                <RaceInfo raceInfo={this.state.raceInfo} />
+                <RaceInfoComponent raceInfo={this.state.raceInfo} />
                 <PlayerChoice
                     chosenRiders={this.state.chosenRiders}
                     onClick={this.removeRider.bind(this)}
