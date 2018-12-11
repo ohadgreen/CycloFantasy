@@ -9,7 +9,6 @@ class RiderImage extends React.Component {
     async componentDidMount() {
         const reqParams = { team: 'bora-hansgrohe', normName: 'daniel-oss' };
         const image = await imageService.getRiderImage(reqParams);
-        console.log('image client: ' + image);
         this.setState({ image: image });
     }
 
