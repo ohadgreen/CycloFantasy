@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import imageService from '../../services/images.service'
-import { Table, Modal, Image, Button, Icon } from 'semantic-ui-react'
+import imageService from '../../services/images.service';
+import * as raceInfoActions from '../../store/raceInfo/actions';
+import { Table, Modal, Image, Button, Icon } from 'semantic-ui-react';
 
 class RiderChoiceTable extends Component {
     state = {
@@ -31,7 +32,7 @@ class RiderChoiceTable extends Component {
     }
 
     handleChoice = (rider) => {
-        console.log(rider.displayName + ' - chosen');
+        this.props.dispatch(raceInfoActions.addChosenRiderBet(rider));
     }
 
     render() {

@@ -8,7 +8,6 @@ import RiderChoiceTable from './RiderChoiceTable';
 
 class RaceBetMain extends Component {
     componentDidMount(){
-        console.log('race info mount');
         this.props.dispatch(raceInfoAction.getActiveRace());
     }
 
@@ -21,9 +20,9 @@ class RaceBetMain extends Component {
                 <Grid.Row style={{ height: '30%' }}>
                     <PlayerTopChoice />
                 </Grid.Row>
-                <Grid.Row style={{ height: '20%' }}>
+                {/* <Grid.Row style={{ height: '20%' }}>
                     <RaceInfoComponent raceInfo={this.props.raceInfo} />
-                </Grid.Row>
+                </Grid.Row> */}
                 <Grid.Row style={{ height: '50%' }}>
                     <RiderChoiceTable />
                 </Grid.Row>
@@ -37,10 +36,7 @@ function mapStateToProps(state) {
     const dataFetched = state.race.fetched;
     const user = state.userAuth.user;
     const raceInfo = state.race.raceInfo;
-    // const riders = state.race.riders;
-    console.log('raceBetMain user: ' + user);
-    (dataFetched) ? 
-    console.log('raceInfo distance: ', raceInfo.distance) : console.log('no race info');
+    // (dataFetched) ? console.log('raceInfo distance: ', raceInfo.distance) : console.log('no race info');
     
     return {
         dataFetched,

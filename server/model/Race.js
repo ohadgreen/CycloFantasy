@@ -16,13 +16,13 @@ const raceSchema = new Schema({
     },
     riders: [{ type: Schema.Types.ObjectId, ref: 'riders' }],
     riderResults: [{
-        rider: { type: Schema.Types.ObjectId, ref: 'Rider' },
+        rider: { type: Schema.Types.ObjectId, ref: 'riders' },
         rank: Number
     }],
     bets: [{
-        user: String,
+        user: { type: Schema.Types.ObjectId, ref: 'users' },
         ridersChoice: [{
-            dbid: String,
+            rider: { type: Schema.Types.ObjectId, ref: 'riders' },
             rank: Number,
         }]
     }]

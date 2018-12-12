@@ -16,7 +16,6 @@ module.exports = app => {
         });
 
         console.log("Server new user: " + user);
-        // res.send({user: user});
         user.save(function (err) {
             if (err)
                 res.send({ text: err });
@@ -45,6 +44,7 @@ module.exports = app => {
             else{
                 user["token"] = "jwt-token";
                 let authUser = {
+                    id: user._id,
                     username: user.username,
                     password: user.password,
                     nickname: user.nickname,
@@ -52,7 +52,7 @@ module.exports = app => {
                     token: "jwt-token"
                 }
                 // console.log('user: ', authUser);                          
-                res.send({ data: authUser }); 
+                res.send({ authUser }); 
             }            
         }        
     })

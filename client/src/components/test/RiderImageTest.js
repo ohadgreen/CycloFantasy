@@ -1,5 +1,5 @@
 import React from 'react';
-import imageService from '../../../services/images.service'
+import imageService from '../../services/images.service'
 
 class RiderImage extends React.Component {
     state = {
@@ -13,7 +13,7 @@ class RiderImage extends React.Component {
     }
 
     render() {
-        const imgPlaceholderSrc = require('../../../resources/images/riderImages/rider-placeholder.jpg');
+        const imgPlaceholderSrc = require('../../resources/images/riderImages/rider-placeholder.jpg');
         const imgDisplay = (this.state.image === '') ? imgPlaceholderSrc : `data:image/png;base64,${this.state.image}`;
 
         return (

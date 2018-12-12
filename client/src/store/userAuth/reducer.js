@@ -1,4 +1,3 @@
-
 let storedUser = JSON.parse(localStorage.getItem('user'));
 
 const initialState = {
@@ -7,8 +6,8 @@ const initialState = {
     loginResult: '',
 }
 
-export default function reduce(state = initialState, action) {     
-    // console.log('storedUser ', storedUser);
+export default function reduce(state = initialState, action) {
+    console.log(action.type);     
     switch (action.type) {        
         case 'LOGIN_SUCCESS': {
             return {loggedIn: true,
@@ -17,13 +16,11 @@ export default function reduce(state = initialState, action) {
             }
         }
         case 'LOGIN_FAILURE':
-            console.log(action.payload);
             return {                
                 loginResult: action.payload,
             }
         
         case 'REGISTER_SUCCESS': {
-            // console.log(action.payload);
             return {
                 loggedIn: true,
                 user: action.payload,
@@ -31,7 +28,6 @@ export default function reduce(state = initialState, action) {
             }
         }
         case 'REGISTER_FAILURE':
-            console.log(action.payload);
             return {
                 loginResult: action.payload,
             }
