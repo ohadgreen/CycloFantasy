@@ -17,6 +17,23 @@ module.exports = app => {
         }
     });
 
+    app.get("/api/race/homepage", async (req, res) => {
+        let errorMsg;
+        const activeRace = await Race.findOne({ isActive: true, hasResults: false })
+        .select({ "raceInfo": 1, "bets": 1 })
+        .populate({ path: "bets.user" })
+        .populate({ path:  "bets.ridersChoice.rider"});
+
+        if (!activeRace) {
+            errorMsg = 'cannot find race';
+            console.log(errorMsg);
+            res.send({ error: errorMsg });
+        }
+        else {
+            res.send(activeRace);
+        }
+    });
+
     app.get("/api/race/bydate", async (req, res) => {
         const { year, month, day } = req.query;
         const dateConcat = `${year}-${month}-${day}T00:00:00.000Z`;
