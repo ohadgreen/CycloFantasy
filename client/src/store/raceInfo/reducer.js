@@ -1,11 +1,13 @@
-import Immutable from 'seamless-immutable';
+// import Immutable from 'seamless-immutable';
 
 const initialState = {
     fetched: false,
+    raceid: '',
     raceInfo: {},
     riders: [],
     bets: [],
-    currentUserBet: []
+    currentUserBet: [],
+    finalizedBet: false,
 };
 
 export default function reduce(state = initialState, action) {
@@ -14,17 +16,31 @@ export default function reduce(state = initialState, action) {
         case 'RACE_INFO_SUCCESS': {
             return {
                 fetched: true,
+                raceid: action.payload.raceid,
                 raceInfo: action.payload.raceInfo,
                 riders: action.payload.riders,
                 bets: action.payload.bets,
-                currentUserBet: action.payload.currentUserBet, }
-            
+                currentUserBet: action.payload.currentUserBet,
+                finalizedBet: false
+                }
         }
         case 'USER_BET_UPDATE': {
-            let testBet = new Array(3).fill({ normName: 'test' });
             return {
                 ...state,
-                currentUserBet: action.payload
+                currentUserBet: action.payload.newUserBet,
+                riders: state.riders.map(rider => {
+                    if(rider._id === action.payload.rider._id){
+                        return {...rider, chosen: true}
+                    };
+                    return rider;
+                }),
+                finalizedBet: (action.payload.tbdCount === 0)
+            }
+        }
+        case 'FINALIZE_BET': {
+            return {
+                ...state,
+                finalizedBet: true
             }
         } 
         default:
@@ -35,4 +51,12 @@ export default function reduce(state = initialState, action) {
 // selectors
 export function getCurrentUserBet(state) {
     return state.race.currentUserBet;
+}
+
+export function getIsFinalizeBet(state) {
+    return state.race.finalizedBet;
+}
+
+export function getRaceid(state) {
+    return state.race.raceid;
 }

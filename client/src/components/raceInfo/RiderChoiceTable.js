@@ -15,16 +15,23 @@ class RiderChoiceTable extends Component {
         return this.props.riders.map((rider, i) => {
             return (
                 <Table.Row key={i}>
-                    <Table.Cell onClick={() => this.handleClick(rider)}><a href='#'>{rider.displayName}</a></Table.Cell>
+                    <Table.Cell onClick={() => this.openRiderInfoModal(rider)}><a href='#'>{rider.displayName}</a></Table.Cell>
                     <Table.Cell>{rider.team}</Table.Cell>
                     <Table.Cell>{rider.proWins}</Table.Cell>
-                    <Table.Cell><Icon link name='plus' onClick={() => this.handleChoice(rider)}/></Table.Cell>
+                    <Table.Cell>
+                        {(rider.chosen || this.props.finalizedBet) ? null :
+                            (<Button
+                                onClick={() => this.handleChoice(rider)}
+                                basic
+                                size="mini"
+                                color="green"
+                            >choose</Button>)}</Table.Cell>
                 </Table.Row>
             )
         })
     }
 
-    handleClick = async (rider) => {
+    openRiderInfoModal = async (rider) => {
         console.log(rider.displayName);
         const reqParams = { team: rider.team, normName: rider.normName };
         const image = await imageService.getRiderImage(reqParams);
@@ -77,10 +84,10 @@ class RiderChoiceTable extends Component {
 }
 
 function mapStateToProps(state) {
-    const dataFetched = state.race.fetched;
+    const finalizedBet = state.race.finalizedBet;
     const riders = state.race.riders;
     return {
-        dataFetched,
+        finalizedBet,
         riders
     };
 }

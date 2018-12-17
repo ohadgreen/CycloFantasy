@@ -7,6 +7,7 @@ import authService from '../../services/auth.service';
         
         let user;        
         if(!loginResult.error){
+            console.log('logic succes');
             user = loginResult.user;
             dispatch({ type: 'LOGIN_SUCCESS', payload: user });
             appRoute("/racebet");           

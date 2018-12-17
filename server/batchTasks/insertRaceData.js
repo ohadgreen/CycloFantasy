@@ -38,10 +38,12 @@ module.exports = app => {
 
     // assuming all riders and teams in race are available in teams and riders tables
     app.post("/api/race/insertriders", async (req, res) => {
+        // 01-09-2018 stage 8 - 342727
+        // 02-09-2018 stage 9 - 342729
         const { raceId } = req.query;
-        // const apiRaceData = await fetchRaceData(raceId);
-        const raceDataRaw = apiRaceSample;
-        const raceData = apiDataParser(raceDataRaw, raceId);
+        const apiRaceData = await fetchRaceData(raceId);
+        // const raceDataRaw = apiRaceSample;
+        const raceData = apiDataParser(apiRaceData, raceId);
         const apiRaceRiders = raceData.competitors;
 
         let riderSrIdList = [];

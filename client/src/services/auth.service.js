@@ -39,6 +39,7 @@ class AuthService {
     }
 
     async registerDb(user) {
+        console.log('register service user: ' + JSON.stringify(user));
         const postRegisterUrl = `${baseUrl}/user`;
         const response = await axios({
             url: postRegisterUrl,

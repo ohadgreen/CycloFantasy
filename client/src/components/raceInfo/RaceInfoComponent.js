@@ -21,37 +21,5 @@ export const RaceInfoComponent = (props) => {
                 <Card.Description>{cardDescription}</Card.Description>
             </Card.Content>
         </Card>
-        // <div style={boxStyle} /* className="race-info" */>
-        //     <div style={raceDetails} /* className="race-details" */>
-        //         next race: {raceDateDisplay} <br />
-        //         {raceName}, {stage} <br />
-        //         from {departureCity} to {arrivalCity}<br />
-        //         distance: {distance} km, {classification}
-        //     </div>
-
-        //     <img style={profileImageStyle}/* className="race-profile-img" */
-        //         src={require(`../../resources/images/raceProfiles/vuelta2018_stg18_profile.jpeg`)}
-        //         alt={props.raceInfo.stage}
-        //     ></img>
-        // </div>
     )
-}
-
-const boxStyle = {
-    position: "absolute",
-    border: "1px solid #999",
-    borderRadius: "4px",
-    padding: "10px",
-    height: "25%",
-    width: "45%",
-}
-const raceDetails = {
-    position: "relative",
-    alignSelf: "left",
-}
-const profileImageStyle = {
-    position: "relative",
-    alignSelf: "right",
-    height: "80%",
-    width: "40%",
 }

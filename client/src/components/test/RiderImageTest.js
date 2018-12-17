@@ -18,7 +18,7 @@ class RiderImage extends React.Component {
 
         return (
             <div>
-                <img src={imgDisplay} />
+                <img src={imgDisplay} alt="image" />
             </div>
         )
     }

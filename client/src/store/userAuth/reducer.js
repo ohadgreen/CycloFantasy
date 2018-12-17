@@ -1,4 +1,7 @@
-let storedUser = JSON.parse(localStorage.getItem('user'));
+let rawStoredUser = localStorage.getItem('user');
+let storedUser = (rawStoredUser.length !== 0) ? JSON.parse(rawStoredUser) : '';
+console.log(rawStoredUser + ' - ' + storedUser);
+// let storedUser = JSON.parse(localStorage.getItem('user'));
 
 const initialState = {
     loggedIn: false,
@@ -7,7 +10,7 @@ const initialState = {
 }
 
 export default function reduce(state = initialState, action) {
-    console.log(action.type);     
+    console.log(action.type);
     switch (action.type) {        
         case 'LOGIN_SUCCESS': {
             return {loggedIn: true,
@@ -35,4 +38,9 @@ export default function reduce(state = initialState, action) {
         default:
             return state;
     }    
+}
+
+// selectors
+export function getUser(state) {
+    return state.userAuth.user;
 }

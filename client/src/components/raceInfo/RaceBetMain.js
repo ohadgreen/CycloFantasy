@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid } from 'semantic-ui-react';
 import * as raceInfoAction from '../../store/raceInfo/actions';
+import * as raceInfoSelectors from '../../store/raceInfo/reducer';
 import { RaceInfoComponent } from './RaceInfoComponent';
 import PlayerTopChoice from './PlayerTopRiderChoice';
 import RiderChoiceTable from './RiderChoiceTable';
@@ -35,8 +36,8 @@ class RaceBetMain extends Component {
 function mapStateToProps(state) {
     const dataFetched = state.race.fetched;
     const user = state.userAuth.user;
-    const raceInfo = state.race.raceInfo;
-    // (dataFetched) ? console.log('raceInfo distance: ', raceInfo.distance) : console.log('no race info');
+    const raceInfo = raceInfoSelectors.getRaceid(state);
+    // (dataFetched) ? console.log('raceInfo id: ', raceInfo) : console.log('no race info');
     
     return {
         dataFetched,

@@ -5,7 +5,7 @@ const DB_FETCH_URL = "/api/race/";
 
 class RaceInfo {
     async getRaceActive() {
-        /* const response = await axios({
+        const response = await axios({
             url: `${DB_FETCH_URL}active`,
             method: 'GET',
             headers: {
@@ -19,11 +19,10 @@ class RaceInfo {
             return { error: response.statusText }
         }
         else {
-            const raceInfo = response.data;
-            return { data: raceInfo }
-        } */
+            return { data: response.data }
+        }
 
-        return { data: raceInfoSample }
+        // return { data: raceInfoSample }
     }
 
     async getRaceByDate(year, month, day) {

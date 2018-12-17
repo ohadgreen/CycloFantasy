@@ -8,6 +8,9 @@ module.exports = app => {
 
     app.post('/api/auth/user', function (req, res) {
         const { username, password, nickname, email } = req.query;
+        console.log('req.query: ' + JSON.stringify(req.query));
+        console.log('username: ' + username);
+
         user = new User({
             username: username,
             password: password,
@@ -27,7 +30,6 @@ module.exports = app => {
 
     app.get("/api/auth/user", async (req, res) => {
         const { username, password } = req.query;
-        // console.log('username: ', username);        
         let errorMsg;
         const user = await User.findOne({ 'username': username });
         if(!user){
