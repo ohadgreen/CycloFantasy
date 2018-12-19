@@ -9,7 +9,6 @@ class ImageService {
             params: riderParams,
             method: 'GET',
             responseType: 'arraybuffer',
-            
         });
         // console.log('image service: ' + JSON.stringify(response));
         return new Buffer(response.data, 'binary').toString('base64');

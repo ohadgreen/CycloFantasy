@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import imageService from '../../services/images.service';
 import * as raceInfoActions from '../../store/raceInfo/actions';
 import { Table, Modal, Image, Button, Icon } from 'semantic-ui-react';
+import { RiderInfoModal}  from './RiderInfoModal';
 
 class RiderChoiceTable extends Component {
     state = {
@@ -33,38 +34,26 @@ class RiderChoiceTable extends Component {
 
     openRiderInfoModal = async (rider) => {
         console.log(rider.displayName);
-        const reqParams = { team: rider.team, normName: rider.normName };
+        const reqParams = { team: rider.team , normName: rider.normName};
         const image = await imageService.getRiderImage(reqParams);
-        this.setState({ modalRider: rider, modalOpen: true, image: image })
+        this.setState({ modalRider: rider, modalOpen: true, image: `data:image/png;base64,${image}` })
     }
+
+    closeModal = () => { this.setState({ modalOpen: false }) };
 
     handleChoice = (rider) => {
         this.props.dispatch(raceInfoActions.addChosenRiderBet(rider));
     }
 
     render() {
-        const imgPlaceholderSrc = require('../../resources/images/riderImages/rider-placeholder.jpg');
-        const imgDisplay = (this.state.image === '') ? imgPlaceholderSrc : `data:image/png;base64,${this.state.image}`;
-
         return (
             <div>
-                <Modal size='mini' open={this.state.modalOpen}>
-                    <Modal.Header>{this.state.modalRider.displayName}</Modal.Header>
-                    <Modal.Content image>
-                        <Image wrapped size='small' src={imgDisplay} />
-                        <Modal.Description>
-                            <p><b>Nationality: </b>{this.state.modalRider.nationality}</p>
-                            <p><b>Team: </b>{this.state.modalRider.team}</p>
-                            <p><b>Age: </b>{this.state.modalRider.age}</p>
-                            <p><b>Height: </b>{this.state.modalRider.height} m</p>
-                            <p><b>Weight: </b>{this.state.modalRider.weight} Kg</p>
-                            <p><b>Pro wins: </b>{this.state.modalRider.proWins}</p>
-                            <p><b>Grand Tours: </b>{this.state.modalRider.grandTours}</p>
-                            <p><a href={this.state.modalRider.pageUrl}>PCS page</a></p>
-                        </Modal.Description>
-                    </Modal.Content>
-                    <Button onClick={() => this.setState({ modalOpen: false })}>Close</Button>
-                </Modal>
+                <RiderInfoModal 
+                modalOpen={this.state.modalOpen}
+                modalRider={this.state.modalRider}
+                imgDisplay={this.state.image}
+                closeModal={this.closeModal}
+                />
                 <Table compact>
                     <Table.Header>
                         <Table.Row>
