@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import imageService from '../../services/images.service';
 import * as raceInfoActions from '../../store/raceInfo/actions';
-import { Table, Modal, Image, Button, Icon } from 'semantic-ui-react';
+import { Table, Button} from 'semantic-ui-react';
 import { RiderInfoModal}  from './RiderInfoModal';
 
 class RiderChoiceTable extends Component {
