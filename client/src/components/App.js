@@ -7,7 +7,7 @@ import Login from './login/Login';
 import Register from './login/Register';
 import UserInfo from './login/UserInfo';
 import RaceBetMain from './raceInfo/RaceBetMain';
-import RiderImage from './test/RiderImageTest';
+import HomepageMain from './homepage/HomepageMain';
 
 class App extends Component {
   render() {
@@ -19,7 +19,7 @@ class App extends Component {
             <Route path="/register" component={Register} />
             <Route path="/userinfo" component={UserInfo} />
             <Route path="/racebet" component={RaceBetMain} />
-            <Route path="/riderimage" component={RiderImage} />
+            <Route path="/homepage" component={HomepageMain} />
             <Route path="/" component={Login} />
           </Switch>
         </Router>

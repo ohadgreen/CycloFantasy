@@ -1,6 +1,6 @@
 import homepageInfoService from '../../services/homepage.service';
 
-export const getTotalScores = () => {
+export const getTotalScores = async () => {
     const totalScores = await homepageInfoService.getTotalScores();
     if (totalScores) {
         return totalScores;
@@ -10,7 +10,7 @@ export const getTotalScores = () => {
     }
 }
 
-export const getPrevRaceResults = () => {
+export const getPrevRaceResults = async () => {
     const prevRaceResults = await homepageInfoService.getPrevRaceResults();
     if (prevRaceResults) {
         return prevRaceResults;
@@ -20,7 +20,7 @@ export const getPrevRaceResults = () => {
     }
 }
 
-export const getNextRaceBets = () => {
+export const getNextRaceBets = async () => {
     const nextRaceBets = await homepageInfoService.getNextRaceBets();
     if (nextRaceBets) {
         return nextRaceBets;
