@@ -13,6 +13,7 @@ export const getTotalScores = async () => {
 export const getPrevRaceResults = async () => {
     const prevRaceResults = await homepageInfoService.getPrevRaceResults();
     if (prevRaceResults) {
+        // console.log('homepage action prr: ' + JSON.stringify(prevRaceResults));
         return prevRaceResults;
     }
     else {

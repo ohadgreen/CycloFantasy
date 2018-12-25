@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Grid } from 'semantic-ui-react';
 import * as homepageActions from '../../store/homepage/actions';
 import { TotalScoreChart } from './TotalScoreChart';
+import { PrevRaceResults } from './PrevRaceResults';
 
 class HomepageMain extends Component {
     state = {
@@ -13,26 +14,31 @@ class HomepageMain extends Component {
 
     async componentDidMount(){
         const totalScores = await homepageActions.getTotalScores();
-        const nextRaceBets = homepageActions.getNextRaceBets();
-        const prevRaceResults = homepageActions.getPrevRaceResults();
+        const prevRaceResults = await homepageActions.getPrevRaceResults();
+        // const nextRaceBets = await homepageActions.getNextRaceBets();
 
         this.setState({
-            totalScores, nextRaceBets, prevRaceResults
+            totalScores, 
+            prevRaceResults
+            // nextRaceBets, 
         });
     }
 
     render() {
-        if (!this.state.totalScores){
+        if (this.state.prevRaceResults === {}){
             return (<div>Fetching info...</div>);
         }
-        console.log('total scores: ' + this.state.totalScores);
+        else {
         return (
             <Grid celled> 
                 <Grid.Row>
                     <TotalScoreChart totalScores={this.state.totalScores} />
                 </Grid.Row>
+                <Grid.Row>
+                    <PrevRaceResults prevRaceResults={this.state.prevRaceResults}/>
+                </Grid.Row>
             </Grid>
-        )
+        )}
     }
 }
 

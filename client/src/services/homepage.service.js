@@ -2,8 +2,6 @@
 import { prevRaceResultSample, nextRaceBetsSample, userTotalScoreChart } from '../resources/sampleData/HomePageInfo';
 
 class HomepageInfo {
-    async getPrevRaceResults() {
-    }
 
     getPrevRaceResults() {
         return prevRaceResultSample;
